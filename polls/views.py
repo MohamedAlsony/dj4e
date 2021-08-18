@@ -1,5 +1,5 @@
-from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render
+from django.http import HttpResponse
+from django.shortcuts import get_object_or_404, render , redirect
 from django.urls import reverse
 from django.views import generic
 
@@ -7,7 +7,7 @@ from .models import Choice, Question
 
 
 def owner(request):
-    return HttpResponse("Hello, world. bfda4ecd is the polls owner.")
+    return HttpResponse("Hello, world. 14ea332d is the polls owner.")
 
 class IndexView(generic.ListView):
     template_name = 'polls/index.html'
