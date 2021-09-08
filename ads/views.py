@@ -63,6 +63,8 @@ class AdDetailView(OwnerDetailView):
 class AdCreateView(LoginRequiredMixin, CreateView):
     template_name = 'ads/ad_form.html'
     success_url = reverse_lazy('ads:all')
+    login_url = '/users/login/'
+
 
     def get(self, request, pk=None):
         form = CreateForm()
@@ -84,6 +86,7 @@ class AdCreateView(LoginRequiredMixin, CreateView):
 class AdUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'ads/ad_form.html'
     success_url = reverse_lazy('ads:all')
+    login_url = '/users/login/'
 
     def get(self, request, pk):
         ad = get_object_or_404(Ad, id=pk, owner=self.request.user)
@@ -119,6 +122,7 @@ def stream_file(request, pk):
 
 
 class CommentCreateView(LoginRequiredMixin, View):
+    login_url = '/users/login/'
     def post(self, request, pk) :
         f = get_object_or_404(Ad, id=pk)
         comment = Comment(text=request.POST['comment'], owner=request.user, ad=f)
@@ -143,6 +147,7 @@ from django.db.utils import IntegrityError
 
 @method_decorator(csrf_exempt, name='dispatch')
 class AddFavoriteView(LoginRequiredMixin, View):
+    login_url = '/users/login/'
     def post(self, request, pk) :
         print("Add PK",pk)
         ad = get_object_or_404(Ad, id=pk)
@@ -155,6 +160,7 @@ class AddFavoriteView(LoginRequiredMixin, View):
 
 @method_decorator(csrf_exempt, name='dispatch')
 class DeleteFavoriteView(LoginRequiredMixin, View):
+    login_url = '/users/login/'
     def post(self, request, pk) :
         print("Delete PK",pk)
         ad = get_object_or_404(Ad, id=pk)

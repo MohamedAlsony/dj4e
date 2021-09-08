@@ -43,6 +43,10 @@
 {{ ad.text }}
 </p>
 <p>
+{{ ad.owner }}
+</p>
+
+<p>
     {% if ad.tags.all %}
 <p>Tags:
   {% for tag in ad.tags.all %}
