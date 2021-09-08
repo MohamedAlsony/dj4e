@@ -2,7 +2,7 @@ from django.db import models
 from django.core.validators import MinLengthValidator
 from django.contrib.auth.models import User
 from django.conf import settings
-
+from taggit.managers import TaggableManager
 class Ad(models.Model) :
     title = models.CharField(
             max_length=200,
@@ -15,10 +15,11 @@ class Ad(models.Model) :
                                       through='Comment', related_name='comments_owned')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    tags = TaggableManager()
 
     # Picture
-    picture = models.BinaryField(null=True, editable=True)
-    content_type = models.CharField(max_length=256, null=True, help_text='The MIMEType of the file')
+    picture = models.BinaryField(null=True, editable=True, blank=True)
+    content_type = models.CharField(max_length=256, null=True, help_text='The Type of the file', blank=True)
 
     # Favorites
     favorites = models.ManyToManyField(settings.AUTH_USER_MODEL,

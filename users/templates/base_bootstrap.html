@@ -2,7 +2,9 @@
 <html>
 <head>
 <!-- Edit dj4e-samples/settings.py and add APP_NAME = 'DJ4E Samples' or similar -->
-<title>{% block title %}{{ settings.APP_NAME }}{% endblock %}</title>
+<title>{% block head_title %}{{settings.APP_NAME}}{% endblock %}</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 
 <!-- Replace this value (42-42) with the one provided by the autograder -->
 <meta name="dj4e" content="af9c36fe9a3205c8b7a2011402679887">

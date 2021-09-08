@@ -1,5 +1,6 @@
 {% extends "base_menu.html" %}
 {% load humanize %} <!-- https://docs.djangoproject.com/en/3.0/ref/contrib/humanize -->
+{% block head_title %}{{ ad }} | Django Ads{% endblock head_title %}
 {% block head %}
 <style>
 .overlay{
@@ -13,6 +14,7 @@
   background-color: rgba(0,0,0,0.5); /*dim the background*/
 }
 </style>
+
 {% endblock %}
 
 {% block content %}
@@ -41,6 +43,14 @@
 {{ ad.text }}
 </p>
 <p>
+    {% if ad.tags.all %}
+<p>Tags:
+  {% for tag in ad.tags.all %}
+  <span style="border:1px grey solid; background-color: LightGreen;">{{ tag }}</span>
+  {% endfor %}
+</p>
+{% endif %}
+
 </p>
 <p>
 <a href="{% url 'ads:all' %}">All ads</a>
@@ -58,8 +68,12 @@
 </form>
 </p>
 {% endif %}
-
+<hr>
 {% for comment in comments %}
+<h4><a href="{% url 'users:profile' comment.owner.username %}"
+            class="nav-item nav-link {% if request.user.username in request.path %}active{% endif %}">
+            {{comment.owner.username}}:
+          </a></h4>
 <p> {{ comment.text }}
 ({{ comment.updated_at|naturaltime }})
 {% if user == comment.owner %}

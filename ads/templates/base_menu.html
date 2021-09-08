@@ -1,36 +1,43 @@
 {% extends "base_bootstrap.html" %}
 {% block navbar %}
 {% load app_tags %}
-<nav class="navbar navbar-default navbar-inverse">
-  <div class="container-fluid">
-    <div class="navbar-header">
-        <a class="navbar-brand" href="/">{{ settings.APP_NAME }}</a>
-    </div>
-    <!-- https://stackoverflow.com/questions/22047251/django-dynamically-get-view-url-and-check-if-its-the-current-page -->
-    <ul class="nav navbar-nav">
-      {% url 'ads' as ads %}
-      <li {% if request.get_full_path == ads %}class="active"{% endif %}>
-          <a href="{% url 'ads:all' %}">Ads</a></li>
-    </ul>
-    <ul class="nav navbar-nav navbar-right">
-        {% if user.is_authenticated %}
-        <li>
-        <a href="{% url 'ads:ad_create' %}">Create Ad</a>
-        </li>
-        <li class="dropdown">
-            <a href="#" data-toggle="dropdown" class="dropdown-toggle">
-                <img style="width: 25px;" src="{{ user|gravatar:60 }}"/><b class="caret"></b>
-            </a>
-            <ul class="dropdown-menu">
-                <li><a href="{% url 'logout' %}?next={% url 'ads:all' %}">Logout</a></li>
-            </ul>
-        </li>
+  <nav class="navbar navbar-expand-sm navbar-light bg-light">
+    <div class="container">
+      <a href="{% url 'ads:all' %}" class="navbar-brand">Django Ads</a>
+      <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+          <div class="navbar-nav">
+          <a href="{% url 'ads:all' %}"
+            class="nav-item nav-link  {% if request.path == '/' %}active{% endif %}">All Ads</a>
+        </div>
+
+        {% if request.user.is_authenticated %}
+        <div class="navbar-nav ml-auto">
+          <a href="{% url 'users:profile' request.user.username %}"
+            class="nav-item nav-link {% if request.user.username in request.path %}active{% endif %}">
+            Profile
+          </a>
+          <a href="{% url 'ads:ad_create' %}" class="nav-item nav-link">Create new ad!</a>
+          <a href="{% url 'users:logout' %}" class="nav-item nav-link">Log out</a>
+        </div>
         {% else %}
-        <li>
-        <a href="{% url 'login' %}?next={% url 'ads:all' %}">Login</a>
-        </li>
+        <div class="navbar-nav ml-auto">
+          <a href="{% url 'users:login' %}"
+            class="nav-item nav-link {% if request.path == '/users/login/' %}active{% endif %}">Log in</a>
+          <a href="{% url 'users:signup' %}"
+            class="nav-item nav-link {% if request.path == '/users/signup/' %}active{% endif %}">Sign up</a>
+        </div>
         {% endif %}
-    </ul>
+      </div>
+    </div>
+  </nav>
+  {% for message in messages %}
+  <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} 
+  alert-dismissible fade show">
+    {{ message }}
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
   </div>
-</nav>
+  {% endfor %}
 {% endblock %}

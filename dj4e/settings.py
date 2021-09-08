@@ -16,7 +16,7 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Used for a default title
-APP_NAME = 'DJ4E Samples'   # Add
+APP_NAME = 'ads'   # Add
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
@@ -28,6 +28,15 @@ SECRET_KEY = 'g$iqqu&*mw4_sg3(#ld0sqaalxebel&168^yj%i&sgrw(fmn@w'
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
+
+
+#email
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'master.clean.dcl@gmail.com'
+EMAIL_HOST_PASSWORD = '123456789@a'
+EMAIL_PORT = 587
 
 # Application definition
 
@@ -41,6 +50,7 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
 
     # Extensions - installed with pip3 / requirements.txt
+    'taggit',
     'django_extensions', 
     'crispy_forms',  
 
@@ -48,6 +58,7 @@ INSTALLED_APPS = [
 
     'home.apps.HomeConfig',
     'ads',
+    'users',
 ]
 
 # When we get to crispy forms :)
@@ -88,6 +99,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'dj4e.wsgi.application'
 
+#user model
+AUTH_USER_MODEL = 'users.User'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
@@ -105,17 +118,12 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+'OPTIONS': {
+            'min_length': 2,
+        }
     },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+
 ]
 
 
@@ -163,7 +171,7 @@ LOGOUT_REDIRECT_URL = '/'
 LOGIN_REDIRECT_URL = '/'
 
 # Don't set default LOGIN_URL - let django.contrib.auth set it when it is loaded
-# LOGIN_URL = '/accounts/login'
+#LOGIN_URL = "/users/login/"
 
 # Needed for 3.2 and later
 # https://stackoverflow.com/questions/67783120/warning-auto-created-primary-key-used-when-not-defining-a-primary-key-type-by
